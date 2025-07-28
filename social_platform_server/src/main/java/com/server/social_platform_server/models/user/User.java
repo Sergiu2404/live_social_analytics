@@ -19,11 +19,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String username;
+    @Column(unique = true, nullable = false)
     private String email;
 
     @JsonIgnore
     private String password;
+
+    private boolean enabled = false;
 
     private ZonedDateTime registrationDate;
     private LocalDate birthDate;
@@ -72,5 +76,77 @@ public class User {
 
     public Long getId() {
         return id;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public ZonedDateTime getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(ZonedDateTime registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public ZonedDateTime getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(ZonedDateTime lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getProfilePictureURL() {
+        return profilePictureURL;
+    }
+
+    public void setProfilePictureURL(String profilePictureURL) {
+        this.profilePictureURL = profilePictureURL;
+    }
+
+    public UserLocation getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(UserLocation userLocation) {
+        this.userLocation = userLocation;
+    }
+
+    public UserCurrentLocation getUserCurrentLocation() {
+        return userCurrentLocation;
+    }
+
+    public void setUserCurrentLocation(UserCurrentLocation userCurrentLocation) {
+        this.userCurrentLocation = userCurrentLocation;
+    }
+
+    public UserRoles getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRoles userRole) {
+        this.userRole = userRole;
     }
 }
