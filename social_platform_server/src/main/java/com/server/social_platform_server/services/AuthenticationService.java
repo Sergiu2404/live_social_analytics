@@ -100,11 +100,26 @@ public class AuthenticationService {
 
         if(!passwordEncoder.matches(password, user.getPassword())){
             throw new IllegalArgumentException("Incorrect password");
-        }  
-        if(!user.isEnabled()){
-            throw new IllegalStateException("Account not verified, please check firstly your email");
         }
+//        if(!user.isEnabled()){
+//            throw new IllegalStateException("Account not verified, please check firstly your email");
+//        }
 
         return user;
+    }
+
+    public void verifyAccount(String token){
+        VerificationToken verificationToken = verificationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid verification token"));
+
+        if(verificationToken.getExpiryDate().isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("Verification token has expired");
+        }
+
+        User user = verificationToken.getUser();
+        user.setEnabled(true);
+        userRepository.save(user);
+
+        verificationTokenRepository.delete(verificationToken);
     }
 }
