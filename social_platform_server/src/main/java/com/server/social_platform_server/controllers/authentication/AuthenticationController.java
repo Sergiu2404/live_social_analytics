@@ -24,8 +24,8 @@ public class AuthenticationController {
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request){
-        User user = authenticationService.loginUser(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok("User logged in successfully");
+        String jwtToken = authenticationService.loginUser(request.getEmail(), request.getPassword());
+        return ResponseEntity.ok("User logged in successfully, token " + jwtToken);
     }
     @GetMapping("/verify")
     public ResponseEntity<?> verify(@RequestParam("token") String token){

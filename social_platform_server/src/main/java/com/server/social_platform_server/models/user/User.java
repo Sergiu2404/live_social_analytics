@@ -7,10 +7,6 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
-enum UserRoles{
-    ADMIN, NORMAL
-}
-
 @Entity
 @Table(name="users")
 public class User {
