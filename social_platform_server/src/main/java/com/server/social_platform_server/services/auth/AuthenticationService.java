@@ -1,4 +1,4 @@
-package com.server.social_platform_server.services;
+package com.server.social_platform_server.services.auth;
 
 import com.server.social_platform_server.models.user.User;
 import com.server.social_platform_server.models.user.UserRoles;

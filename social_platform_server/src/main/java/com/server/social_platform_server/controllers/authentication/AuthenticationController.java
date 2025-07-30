@@ -3,9 +3,8 @@ package com.server.social_platform_server.controllers.authentication;
 import com.server.social_platform_server.dto.auth_dto.LoginRequest;
 import com.server.social_platform_server.dto.auth_dto.RegisterRequest;
 import com.server.social_platform_server.models.user.User;
-import com.server.social_platform_server.services.AuthenticationService;
+import com.server.social_platform_server.services.auth.AuthenticationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

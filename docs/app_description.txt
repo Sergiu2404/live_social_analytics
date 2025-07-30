@@ -1,0 +1,49 @@
+App Concept: EcoSignal
+-social app where users post geo-tagged content (photos/videos) to report or highlight events like:
+	illegal deforestation
+	Wildlife sightings
+	Pollution
+	Fires
+	Water contamination
+
+Main Features
+1. Posts + Media Upload 
+-Users create posts (text + image/video) with a location tag
+-Data stored in PostgreSQL, with S3 or similar for media
+
+2. Map Integration
+-Frontend displays a map (OpenStreetMap or Google Maps)
+-Backend stores coordinates for posts
+-Cluster and color-code posts based on type/severity/model predictions
+-Data for PySpark: spatial clustering, density analysis, heatmaps, etc.
+
+3. Computer Vision Integration
+When a user uploads an image:
+	It is sent to a model (CV-based) that classifies it: e.g., "deforestation", "littering", "fire", etc.
+	Model outputs a tag/category that is saved to the post
+Tech stack:
+	PyTorch or TensorFlow model served via REST or gRPC
+	Model runs on GPU if high traffic
+CV Model Types:
+	Image classification (e.g., ResNet)
+	Object detection (YOLO for detecting tree stumps, smoke, etc.)
+4. Recommendation Engine (PySpark)
+	Use PySpark MLlib or custom pipelines to build a recommendation system:
+		Approach			Data Needed
+		Content-based			Post tags, categories, CV model labels
+		Collaborative filtering		User-post interactions (likes, saves, views)
+		Hybrid				Combine both
+
+	Spark can process this data daily to produce personalized post suggestions for users.
+
+5. Alert System
+	If many similar posts are clustered in a region → trigger a warning
+	PySpark jobs can scan for high-frequency, high-severity posts and generate "events"
+
+6. Analytics Dashboard
+	Users (or authorities) see trends:
+	Deforestation increase per area
+	Pollution spike heatmaps
+	Seasonal animal sightings
+	Powered by aggregated Spark jobs + frontend dashboards (React + Chart.js / D3)
+

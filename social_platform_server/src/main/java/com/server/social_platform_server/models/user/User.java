@@ -40,6 +40,7 @@ public class User {
     private UserCurrentLocation userCurrentLocation;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "user_role")
     private UserRoles userRole;
 
     public String getUsername() {
