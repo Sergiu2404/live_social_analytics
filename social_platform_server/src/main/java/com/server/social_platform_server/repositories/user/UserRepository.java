@@ -1,4 +1,4 @@
-package com.server.social_platform_server.repositories;
+package com.server.social_platform_server.repositories.user;
 
 import com.server.social_platform_server.models.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

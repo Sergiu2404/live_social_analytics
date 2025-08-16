@@ -3,10 +3,12 @@ package com.server.social_platform_server.services.auth;
 import com.server.social_platform_server.models.user.User;
 import com.server.social_platform_server.models.user.UserRoles;
 import com.server.social_platform_server.models.verification_token.VerificationToken;
-import com.server.social_platform_server.repositories.UserRepository;
-import com.server.social_platform_server.repositories.VerificationTokenRepository;
+import com.server.social_platform_server.repositories.user.UserRepository;
+import com.server.social_platform_server.repositories.user.VerificationTokenRepository;
 import com.server.social_platform_server.utils.jwt.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -127,5 +129,16 @@ public class AuthenticationService {
         userRepository.save(user);
 
         verificationTokenRepository.delete(verificationToken);
+    }
+
+    public User getCurrentUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")){
+            throw new IllegalStateException();
+        }
+
+        String email = authentication.getName();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalStateException("User with this email" + email + " not found"));
     }
 }
