@@ -7,8 +7,10 @@ import com.server.social_platform_server.repositories.post.PostRepository;
 import com.server.social_platform_server.services.auth.AuthenticationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.ZonedDateTime;
 
@@ -43,6 +45,36 @@ public class PostService {
         post.setLongitude(longitude != null ? longitude : 0.0);
         post.setCreatedAt(ZonedDateTime.now());
 
+        return postRepository.save(post);
+    }
+
+    @Transactional
+    public void deletePost(Long postId){
+        User currentUser = authenticationService.getCurrentUser();
+        Post post = postRepository.findById(postId).orElseThrow(() -> new RuntimeException("Post with id " + postId + " not found"));
+
+        if (!post.getUser().getId().equals(currentUser.getId())) {
+            throw new RuntimeException("You are not authorized to delete this post");
+        }
+
+        postRepository.delete(post);
+    }
+
+    @Transactional
+    public Post updatePost(Long postId, String newContent){
+        if (newContent == null || newContent.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Content must not be empty.");
+        }
+
+        User currentUser = authenticationService.getCurrentUser();
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found"));
+
+        if (!post.getUser().getId().equals(currentUser.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to update this post.");
+        }
+
+        post.setContent(newContent.trim());
         return postRepository.save(post);
     }
 }
