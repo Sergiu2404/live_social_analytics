@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Service
@@ -89,6 +90,7 @@ public class AuthenticationService {
         newUser.setEmail(email);
         newUser.setUserRole(UserRoles.USER);
         newUser.setEnabled(false);
+        newUser.setRegistrationDate(ZonedDateTime.now());
         User savedUser = userRepository.save(newUser);
 
         String token = UUID.randomUUID().toString();

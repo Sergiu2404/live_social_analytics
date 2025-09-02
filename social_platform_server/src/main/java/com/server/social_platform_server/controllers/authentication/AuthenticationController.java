@@ -7,6 +7,9 @@ import com.server.social_platform_server.services.auth.AuthenticationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("api/auth")
 public class AuthenticationController {
@@ -19,12 +22,20 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request){
         User user = authenticationService.registerUser(request.getUsername(), request.getEmail(), request.getPassword());
-        return ResponseEntity.ok("User registered, please check your email to verify your account");
+        Map<String, String> response = new HashMap<>();
+
+        response.put("message", "User " + user.getEmail() + " registered succesfully");
+        return ResponseEntity.ok(response);
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request){
         String jwtToken = authenticationService.loginUser(request.getEmail(), request.getPassword());
-        return ResponseEntity.ok("User logged in successfully, token " + jwtToken);
+        Map<String, String> response = new HashMap<>();
+
+        response.put("message", "User logged in succesfully");
+        response.put("token", jwtToken);
+
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/verify")
     public ResponseEntity<?> verify(@RequestParam("token") String token){

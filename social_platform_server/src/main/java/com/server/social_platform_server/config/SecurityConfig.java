@@ -18,8 +18,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll() // allow loign, register, verify
                         .anyRequest()
                         .authenticated()
-                )
-                .httpBasic(Customizer.withDefaults()); // use default security login
+                );
+//                .httpBasic(Customizer.withDefaults()); // use default security login
         return http.build();
     }
 }
