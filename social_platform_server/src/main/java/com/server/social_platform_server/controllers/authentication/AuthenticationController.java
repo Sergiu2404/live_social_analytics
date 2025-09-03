@@ -28,15 +28,25 @@ public class AuthenticationController {
         return ResponseEntity.ok(response);
     }
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request){
-        String jwtToken = authenticationService.loginUser(request.getEmail(), request.getPassword());
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            String jwtToken = authenticationService.loginUser(request.getEmail(), request.getPassword());
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "User logged in successfully");
+            response.put("token", jwtToken);
+            return ResponseEntity.ok(response);
 
-        response.put("message", "User logged in succesfully");
-        response.put("token", jwtToken);
+        } catch (IllegalArgumentException e) { //bad email or password
+            return ResponseEntity.status(400).body(Map.of("error", e.getMessage()));
 
-        return ResponseEntity.ok(response);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(403).body(Map.of("error", e.getMessage()));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of("error", "Internal server error"));
+        }
     }
+
     @GetMapping("/verify")
     public ResponseEntity<?> verify(@RequestParam("token") String token){
         authenticationService.verifyAccount(token);

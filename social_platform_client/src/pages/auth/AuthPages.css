@@ -1,0 +1,100 @@
+/* container centers form*/
+.auth-container {
+    display: flex;
+    justify-content: center;  /* vert */
+    align-items: center;  /* horiz */
+    height: 100vh;
+    background-color: #f3f4f6; /* light gray background */
+  }
+  
+  /* form */
+  .auth-form {
+    background-color: #ffffff;
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    width: 360px;
+    max-width: 90%;
+  }
+  
+  /* form header */
+  .auth-form h1 {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #111827;
+  }
+  
+  /* input fields */
+  .auth-form input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  
+  .auth-form input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+  }
+  
+  /* buttons */
+  .auth-form button {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .auth-form button.login-btn {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  .auth-form button.login-btn:hover {
+    background-color: #2563eb;
+  }
+  
+  .auth-form button.register-btn {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  .auth-form button.register-btn:hover {
+    background-color: #059669;
+  }
+  
+  /* errors */
+  .auth-form .error-message {
+    color: #ef4444;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
+  /* links */
+  .auth-form .switch-link {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .auth-form .switch-link span {
+    color: #3b82f6;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .auth-form .switch-link span:hover {
+    text-decoration: underline;
+  }
+  
