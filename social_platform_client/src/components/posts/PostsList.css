@@ -1,0 +1,41 @@
+.posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    height: calc(100vh - 70px); /* minus navbar */
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+  
+  .post {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+  }
+  
+  .post-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .post-header .avatar {
+    font-size: 2rem;
+    margin-right: 10px;
+  }
+  
+  .username {
+    font-weight: bold;
+  }
+  
+  .post-image {
+    width: 100%;
+    display: block;
+  }
+  
+  .post-footer {
+    padding: 10px;
+  }
+  
