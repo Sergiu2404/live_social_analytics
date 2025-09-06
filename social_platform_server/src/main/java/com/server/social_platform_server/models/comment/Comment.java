@@ -1,10 +1,13 @@
 package com.server.social_platform_server.models.comment;
 
 import com.server.social_platform_server.models.post.Post;
+import com.server.social_platform_server.models.reactions.CommentsReactions;
 import com.server.social_platform_server.models.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="comments")
@@ -27,6 +30,13 @@ public class Comment {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    @OneToMany(
+            mappedBy = "comment",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<CommentsReactions> commentReactions = new ArrayList<>();
 
     public void setId(Long id) {
         this.id = id;
@@ -62,5 +72,9 @@ public class Comment {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

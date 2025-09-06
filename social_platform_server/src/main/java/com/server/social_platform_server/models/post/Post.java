@@ -1,9 +1,14 @@
 package com.server.social_platform_server.models.post;
 
+import com.server.social_platform_server.models.comment.Comment;
+import com.server.social_platform_server.models.reactions.CommentsReactions;
+import com.server.social_platform_server.models.reactions.PostsReactions;
 import com.server.social_platform_server.models.user.User;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="posts")
@@ -23,6 +28,19 @@ public class Post {
     private double latitude;
     private double longitude;
     private ZonedDateTime createdAt;
+
+    @OneToMany(
+            mappedBy = "post", //binding field (from entity not db)
+            cascade = CascadeType.ALL, //propagate deletes, saves, ...
+            orphanRemoval = true //remove comments no longer attached
+    )
+    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "post",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<PostsReactions> postReactions = new ArrayList<>();
 
     public void setId(Long id) {
         this.id = id;
@@ -86,5 +104,13 @@ public class Post {
 
     public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

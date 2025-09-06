@@ -32,6 +32,19 @@ public class PostService {
         return postRepository.findByUserIdOrderByCreatedAtDesc(currentConnectedUserId, pageable);
     }
 
+    // to implement get posts of all followees
+//    @Transactional
+//    public Page<Post> getPostsOfFollowees()...
+    @Transactional
+    public Page<Post> getAllPosts(Pageable pageable){
+        return this.postRepository.findAll(pageable);
+    }
+    @Transactional
+    public Post getPostById(Long id){
+        return this.postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post with given id not found (post service): " + id));
+    }
+
     @Transactional
     public Post createPost(String content, String mediaUrl, Double latitude, Double longitude){
         User currentUser = authenticationService.getCurrentUser();
@@ -61,7 +74,7 @@ public class PostService {
     }
 
     @Transactional
-    public Post updatePost(Long postId, String newContent){
+    public Post updatePost(Long postId, String newContent, String newMediaUrl){
         if (newContent == null || newContent.isBlank()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Content must not be empty.");
         }
@@ -69,6 +82,10 @@ public class PostService {
         User currentUser = authenticationService.getCurrentUser();
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Post not found"));
+
+        if(newMediaUrl == null || newMediaUrl.isBlank()){
+            newMediaUrl = post.getMediaUrl();
+        }
 
         if (!post.getUser().getId().equals(currentUser.getId())) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not authorized to update this post.");

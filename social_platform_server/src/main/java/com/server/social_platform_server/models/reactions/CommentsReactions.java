@@ -4,6 +4,8 @@ import com.server.social_platform_server.models.comment.Comment;
 import com.server.social_platform_server.models.user.User;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(
         name = "comments_reactions",
@@ -28,6 +30,9 @@ public class CommentsReactions {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id", nullable = false)
     private Comment comment;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     public void setId(Long id) {
         this.id = id;
@@ -59,5 +64,13 @@ public class CommentsReactions {
 
     public void setComment(Comment comment) {
         this.comment = comment;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

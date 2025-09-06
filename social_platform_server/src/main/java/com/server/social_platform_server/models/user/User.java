@@ -1,11 +1,17 @@
 package com.server.social_platform_server.models.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.server.social_platform_server.models.comment.Comment;
+import com.server.social_platform_server.models.post.Post;
+import com.server.social_platform_server.models.reactions.CommentsReactions;
+import com.server.social_platform_server.models.reactions.PostsReactions;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="users")
@@ -42,6 +48,32 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_role")
     private UserRoles userRole;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    List<Post> posts = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    List<Comment> comments = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<CommentsReactions> commentReactions = new ArrayList<>();
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<PostsReactions> postReactions = new ArrayList<>();
 
     public String getUsername() {
         return username;
@@ -145,5 +177,21 @@ public class User {
 
     public void setUserRole(UserRoles userRole) {
         this.userRole = userRole;
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
